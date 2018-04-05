@@ -1,21 +1,37 @@
-from sklearn.metrics import f1_score, roc_curve, auc, roc_auc_score, precision_recall_curve, recall_score, precision_score, confusion_matrix, average_precision_score
+from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, average_precision_score
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-def perfomance(y_test, y_pred, sample_weight=None):
-#     print ("recall_score ",recall_score(y_test, np.round(y_pred)))
-#     print ("precision_score ",precision_score(y_test, np.round(y_pred)))
-    print ("f1_score ",f1_score(y_test, np.round(y_pred)))
-    print ("confusion_matrix ")
-    print (confusion_matrix(y_test, np.round(y_pred)))
-    
+
+#fixed recall values
+rec_values = [0.8, 0.9, 0.95, 0.99]
+
+
+# precision at 10 or P@10 measures classification performance, 
+# being the fraction of the top 10 scored instances which are actually anomalous.
+def Pat10(y_test, y_pred, n=10):
+    ind = np.argpartition(y_pred, -n)[-n:]
+    return np.mean(y_test[ind])
+
+def perfomance(y_test, y_pred, sample_weight=None, n=10):
+    print ("P@"+str(n), Pat10(y_test, y_pred, n))
+
     fig, axes = plt.subplots(nrows=3, figsize=(6, 15))
     
     ax = axes[0]
     ax.grid(True)
     precision, recall, _ = precision_recall_curve(y_test,y_pred)
     
+    print ("recalls_values",rec_values)
+    prec_values = []
+    for v in rec_values:
+        prec_values.append(max(precision[recall > v]))
+    print ("precision_values", prec_values)
+    
+    print ("average_precision_score", average_precision_score(y_test, y_pred, sample_weight=sample_weight))
+    print ("roc_auc_score", roc_auc_score(y_test, y_pred))
+        
 
     ax.step(recall, precision, color='b', alpha=0.2,
              where='post')
@@ -54,3 +70,5 @@ def perfomance(y_test, y_pred, sample_weight=None):
     plt.legend()
     plt.grid(True)
     plt.show()
+    
+    return precision, recall
