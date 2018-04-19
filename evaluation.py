@@ -3,6 +3,23 @@ from sklearn.metrics import f1_score, roc_curve, auc, roc_auc_score, precision_r
 import numpy as np
 import matplotlib.pyplot as plt
 
+def Pat(y_test, y_pred, n=10):
+    ind = np.argpartition(y_pred, -n)[-n:]
+    return np.mean(y_test[ind])
+
+def get_anomaly_metrics(y_test, y_pred):
+    precision, recall, _ = precision_recall_curve(y_test, y_pred)
+    def precision_at_recall(recall_=0.5): return precision[recall >= recall_][0]
+    return {
+    "ROC_AUC": roc_auc_score(y_test, y_pred),
+    "PR_AUC": average_precision_score(y_test, y_pred),
+    "P@10": Pat(y_test, y_pred),
+    "Precision@0.8": precision_at_recall(0.8),
+    "Precision@0.9": precision_at_recall(0.9),
+    "Precision@0.95": precision_at_recall(0.95),
+    "Precision@0.99": precision_at_recall(0.99)
+    }
+
 def perfomance(y_test, y_pred, sample_weight=None):
 #     print ("recall_score ",recall_score(y_test, np.round(y_pred)))
 #     print ("precision_score ",precision_score(y_test, np.round(y_pred)))
