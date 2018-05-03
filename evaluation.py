@@ -4,12 +4,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def Pat(y_test, y_pred, n=10):
-    ind = np.argpartition(y_pred, -n)[-n:]
-    return np.mean(y_test[ind])
+    try:
+        ind = np.argpartition(y_pred, -n)[-n:]
+        return np.mean(y_test[ind])
+    except Exception: return 0
 
 def get_anomaly_metrics(y_test, y_pred):
     precision, recall, _ = precision_recall_curve(y_test, y_pred)
-    def precision_at_recall(recall_=0.5): return precision[recall >= recall_][0]
+    def precision_at_recall(recall_=0.5): 
+        result = precision[recall >= recall_]
+        if result.shape[0] > 0: return result.min()
+        return 0
     return {
     "ROC_AUC": roc_auc_score(y_test, y_pred),
     "PR_AUC": average_precision_score(y_test, y_pred),
