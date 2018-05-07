@@ -9,20 +9,22 @@ def Pat(y_test, y_pred, n=10):
         return np.mean(y_test[ind])
     except Exception: return 0
 
-def get_anomaly_metrics(y_test, y_pred):
+def get_anomaly_metrics(y_test, y_pred, unsigned=True):
     precision, recall, _ = precision_recall_curve(y_test, y_pred)
     def precision_at_recall(recall_=0.5): 
         result = precision[recall >= recall_]
         if result.shape[0] > 0: return result.min()
         return 0
+    if unsigned: unsigned_fn = lambda x: max(x,1-x)
+    else: unsigned_fn = lambda x: x
     return {
-    "ROC_AUC": roc_auc_score(y_test, y_pred),
-    "PR_AUC": average_precision_score(y_test, y_pred),
-    "P@10": Pat(y_test, y_pred),
-    "Precision@0.8": precision_at_recall(0.8),
-    "Precision@0.9": precision_at_recall(0.9),
-    "Precision@0.95": precision_at_recall(0.95),
-    "Precision@0.99": precision_at_recall(0.99)
+    "ROC_AUC": unsigned_fn(roc_auc_score(y_test, y_pred)),
+    "PR_AUC": unsigned_fn(average_precision_score(y_test, y_pred)),
+    "P@10": unsigned_fn(Pat(y_test, y_pred)),
+    "Precision@0.8": unsigned_fn(precision_at_recall(0.8)),
+    "Precision@0.9": unsigned_fn(precision_at_recall(0.9)),
+    "Precision@0.95": unsigned_fn(precision_at_recall(0.95)),
+    "Precision@0.99": unsigned_fn(precision_at_recall(0.99))
     }
 
 def perfomance(y_test, y_pred, sample_weight=None):
