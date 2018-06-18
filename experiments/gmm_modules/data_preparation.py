@@ -30,7 +30,7 @@ def get_train_test_data(path_to_dataset, column_names, train_size, test_size):
     idx_train = np.random.permutation(idx_train)
     idx_test = np.random.permutation(idx_test)
     X_train, X_test = data.drop('label', 1).iloc[idx_train], data.drop('label', 1).iloc[idx_test]
-    y_train, y_test = data['label'].iloc[idx_train], data['label'].iloc[idx_test]
+    y_train, y_test = np.array(data['label'].iloc[idx_train]), np.array(data['label'].iloc[idx_test])
     
     # normalize with StandardScaler
     scaler = StandardScaler()

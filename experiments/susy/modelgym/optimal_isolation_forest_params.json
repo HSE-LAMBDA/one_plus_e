@@ -1,5 +1,5 @@
 {
-    "contamination": 0.1029849455683469,
-    "max_samples": 0.9940821722848857,
-    "n_estimators": 200
+    "contamination": 0.0076327772258622615,
+    "max_samples": 0.23381157033779482,
+    "n_estimators": 800
 }
