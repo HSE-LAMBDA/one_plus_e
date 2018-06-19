@@ -1,0 +1,100 @@
+{
+    "10": {
+        "One-Class SVM": [
+            [
+                0,
+                0.8
+            ]
+        ],
+        "Isolation Forest": [
+            [
+                0,
+                0.8
+            ]
+        ]
+    },
+    "100": {
+        "One-Class SVM": [
+            [
+                0,
+                0.78
+            ]
+        ],
+        "Isolation Forest": [
+            [
+                0,
+                0.92
+            ]
+        ]
+    },
+    "200": {
+        "One-Class SVM": [
+            [
+                0,
+                0.8
+            ]
+        ],
+        "Isolation Forest": [
+            [
+                0,
+                0.9
+            ]
+        ]
+    },
+    "500": {
+        "One-Class SVM": [
+            [
+                0,
+                0.808
+            ]
+        ],
+        "Isolation Forest": [
+            [
+                0,
+                0.9
+            ]
+        ]
+    },
+    "1000": {
+        "One-Class SVM": [
+            [
+                0,
+                0.828
+            ]
+        ],
+        "Isolation Forest": [
+            [
+                0,
+                0.908
+            ]
+        ]
+    },
+    "2000": {
+        "One-Class SVM": [
+            [
+                0,
+                0.849
+            ]
+        ],
+        "Isolation Forest": [
+            [
+                0,
+                0.908
+            ]
+        ]
+    },
+    "5000": {
+        "One-Class SVM": [
+            [
+                0,
+                0.8576
+            ]
+        ],
+        "Isolation Forest": [
+            [
+                0,
+                0.9124
+            ]
+        ]
+    }
+}
